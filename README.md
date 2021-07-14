@@ -1,2 +1,2 @@
 # digit_arm_ws
-Digit's 2DOF arm
+Digit's 2DOF arm extension
