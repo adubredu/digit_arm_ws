@@ -201,15 +201,20 @@ def place(ws):
 
 if __name__ == "__main__":
     conf = Arm_Conf_node()
-    for i in range(10):
-        values = [999,90,90]
-        conf.send_conf_values(values)
-        print("sent 90")
-        time.sleep(5)
-        values = [10,0,0]
-        conf.send_conf_values(values)
-        print("sent 0")
-        time.sleep(5)
+    no = 999
+    close_gripper = 1
+    open_gripper = 0
+    values = [0,180,180]
+    conf.send_conf_values(values)
+    # for i in range(100):
+    #     values = [180,180,no]
+    #     conf.send_conf_values(values)
+    #     print("sent 90")
+    #     time.sleep(5)
+    #     values = [270,0,no]
+    #     conf.send_conf_values(values)
+    #     print("sent 0")
+    #     time.sleep(5)
 
     '''
     gripper = Gripper_node()

@@ -1,5 +1,8 @@
 #include <Wire.h>
 #include <DynamixelShield.h>
+#include <Servo.h>
+
+Servo grabber;
 
 #define SLAVE_ADDRESS 0x04
 
@@ -41,8 +44,12 @@ void setup() {
   dxl.torqueOn(DXL_2);
   dxl.torqueOn(DXL_3);
 
-  dxl.writeControlTableItem(PROFILE_ACCELERATION, DXL_1, 50); 
-  dxl.writeControlTableItem(PROFILE_VELOCITY, DXL_1,130);
+  dxl.writeControlTableItem(GOAL_TORQUE, DXL_1, 1023);
+  dxl.writeControlTableItem(GOAL_CURRENT, DXL_1, 1023);
+   dxl.writeControlTableItem(CURRENT_LIMIT, DXL_1, 1023);
+  dxl.writeControlTableItem(TORQUE_LIMIT, DXL_1, 1023);
+  dxl.writeControlTableItem(PROFILE_ACCELERATION, DXL_1, 1023); 
+  dxl.writeControlTableItem(PROFILE_VELOCITY, DXL_1,1023);
   dxl.writeControlTableItem(PROFILE_ACCELERATION, DXL_2, 50); 
   dxl.writeControlTableItem(PROFILE_VELOCITY, DXL_2,130);
   dxl.writeControlTableItem(PROFILE_ACCELERATION, DXL_3, 50); 
@@ -50,7 +57,10 @@ void setup() {
  
   dxl.setGoalPosition(DXL_3, 180.0, UNIT_DEGREE); //elbow    - angular
   dxl.setGoalPosition(DXL_2, 180.0, UNIT_DEGREE); //wrist    - angular
-  dxl.setGoalPosition(DXL_1, 180.0, UNIT_DEGREE); //EEF      - angular
+  dxl.setGoalPosition(DXL_1, 90.0, UNIT_DEGREE); //EEF      - angular
+
+  grabber.attach(5);
+  grabber.writeMicroseconds(1000);
   delay(2500);
 
 }
@@ -62,7 +72,12 @@ void loop() {
       String ang = temp;
       float angle = ang.substring(1).toFloat();
       if (angle!=999)
-        dxl.setGoalPosition(DXL_1, angle, UNIT_DEGREE);
+      {
+        if (angle == 0) //open
+          grabber.writeMicroseconds(1000);
+        else if (angle == 1) //close
+          grabber.writeMicroseconds(1500);
+      }
     }
     else if (temp[0] == '2'){
       String ang = temp;
