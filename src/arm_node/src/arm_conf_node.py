@@ -204,8 +204,9 @@ if __name__ == "__main__":
     no = 999
     close_gripper = 1
     open_gripper = 0
-    values = [0,180,180]
-    conf.send_conf_values(values)
+    init = [0,50,50]
+    values = [1, 100, 100]
+    conf.send_conf_values(init)
     # for i in range(100):
     #     values = [180,180,no]
     #     conf.send_conf_values(values)
