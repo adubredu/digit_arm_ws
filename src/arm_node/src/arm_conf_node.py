@@ -102,6 +102,19 @@ class Arm_Conf_node:
             sys.exit()
 
 
+    def run_traj_demo(self):
+        no = 999
+        yaws = [50, 70, 90, 120, 150]
+        pitches = [50, 70, 90, 120, 150]
+        grabber = [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1]
+        ind = 0
+        for p in pitches:
+            for y in yaws:
+                self.send_conf_values([grabber[ind], y, p])
+                time.sleep(2)
+                ind += 1
+
+
 
 def send_message(ws, message):
     ws.send(json.dumps(message))
@@ -205,8 +218,13 @@ if __name__ == "__main__":
     close_gripper = 1
     open_gripper = 0
     init = [0,50,50]
-    values = [1, 100, 100]
+    values = [0, 50, 50] #pitch above 150 causes shutdown
+
+    # time.sleep(10)
+    conf.run_traj_demo()
     conf.send_conf_values(init)
+    # time.sleep(5)
+    # conf.send_conf_values([0,no,no])
     # for i in range(100):
     #     values = [180,180,no]
     #     conf.send_conf_values(values)

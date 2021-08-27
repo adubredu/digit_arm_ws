@@ -13,6 +13,7 @@ Servo grabber;
 const int yawID = 1;
 const int pitchID = 2;
 const float unit_degree = 0.29;
+int grabber_pos = 1000;
 
 
 
@@ -21,8 +22,8 @@ const float unit_degree = 0.29;
  
  //yaw-min=200 (0 deg) max=818(180 deg)
  void setup(){
-   ax12SetRegister2(yawID, SPEED_REG, 200);
-   ax12SetRegister2(pitchID, SPEED_REG,200);
+   ax12SetRegister2(yawID, SPEED_REG, 100);
+   ax12SetRegister2(pitchID, SPEED_REG,100);
   //SetPosition(yawID, 512);
   ///delay(1000);
   //SetPosition(yawID, 100);
@@ -51,9 +52,25 @@ const float unit_degree = 0.29;
       if (angle!=999)
         {
           if (angle==0)
-            grabber.writeMicroseconds(1000);
+          {
+            while (grabber_pos > 1000)
+            {
+              grabber_pos -= 10;
+              grabber.writeMicroseconds(grabber_pos);
+              delay(50); //take 2.5 seconds to fully open
+            }
+          }
+           // grabber.writeMicroseconds(1000);
           else if (angle ==1)
-            grabber.writeMicroseconds(1500);
+          {
+            while (grabber_pos < 1500)
+            {
+              grabber_pos += 10;
+              grabber.writeMicroseconds(grabber_pos);
+              delay(50); //take 2.5 seconds to fully close
+            }
+          }
+           // grabber.writeMicroseconds(1500);
         }
     }
     else if (temp[0] == '2'){
