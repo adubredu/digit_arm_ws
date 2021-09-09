@@ -80,13 +80,14 @@ class Gripper_node:
 class Arm_Conf_node:
     def __init__(self):
         rospy.init_node("arm_conf_node")
-        self.left_arm_pub = rospy.Publisher("/left_arm_conf", Point, queue_size=1)
+        # self.left_arm_pub = rospy.Publisher("/left_arm_conf", Point, queue_size=1)
 
-    def send_conf_values(self, values):
+    def send_conf_values(self, arm, values):
         try:
             channel = rospy.ServiceProxy("conf_channel", Conf)
             send_request = ConfRequest()
 
+            send_request.arm.data = arm
             send_request.conf.x = values[0]
             send_request.conf.y = values[1]
             send_request.conf.z = values[2]
@@ -217,13 +218,15 @@ if __name__ == "__main__":
     no = 999
     close_gripper = 1
     open_gripper = 0
-    init = [0,50,50]
-    values = [0, 50, 50] #pitch above 150 causes shutdown
+    right_arm = 0
+    left_arm = 1
+    init = [0,45,50]
+    values = [0, 100, 100] #pitch above 150 causes shutdown1
 
     # time.sleep(10)
-    conf.run_traj_demo()
-    conf.send_conf_values(init)
-    # time.sleep(5)
+    #conf.run_traj_demo()
+    conf.send_conf_values(left_arm, values)
+    time.sleep(5)
     # conf.send_conf_values([0,no,no])
     # for i in range(100):
     #     values = [180,180,no]

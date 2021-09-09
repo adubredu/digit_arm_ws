@@ -1,3 +1,4 @@
 geometry_msgs/Point conf
+std_msgs/Int32 arm
 ---
 std_msgs/Bool status
